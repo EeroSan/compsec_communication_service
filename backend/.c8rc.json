@@ -1,0 +1,6 @@
+{
+    "reporter": ["text", "html"],
+    "exclude": ["src/tests", "coverage"],
+    "all": true
+  }
+  
