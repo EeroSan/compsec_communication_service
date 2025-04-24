@@ -13,15 +13,33 @@ import {
   githubCallback,
 } from "../controllers/oauthController.js";
 import passport from "passport";
-
 import { deleteDevices } from "../controllers/deviceController.js";
+
+import {
+  validateLoginCredentials,
+  whitelistFields,
+} from "../middleware/validationMiddleware.js";
 
 const router = express.Router();
 
 // Local Authentication
-router.post("/signup", signup);
-router.post("/login", login);
-router.post("/refresh", refreshToken);
+router.post(
+  "/signup",
+  whitelistFields(["email", "password"]),
+  validateLoginCredentials,
+  signup
+);
+router.post(
+  "/login",
+  whitelistFields(["email", "password"]),
+  validateLoginCredentials,
+  login
+);
+router.post(
+  "/refresh",
+  whitelistFields(["email", "refreshToken"]),
+  refreshToken
+);
 router.post("/logout", deleteDevices, logout);
 
 // // Google OAuth

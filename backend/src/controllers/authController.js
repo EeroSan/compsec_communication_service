@@ -42,7 +42,7 @@ const generateTokens = (user) => {
 };
 
 const verifyAccessToken = (authHeader) => {
-  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+  if (!authHeader?.startsWith("Bearer ")) {
     throw new Error("Missing or malformed authorization header");
   }
   const token = authHeader.split(" ")[1];
