@@ -10,10 +10,6 @@ export const validateRequest = (req, res, next) => {
   next();
 };
 
-
-
-
-
 export const validatePassword = body("password")
   .isString()
   .withMessage("Password must be a string")
@@ -22,25 +18,28 @@ export const validatePassword = body("password")
   .trim();
 
 export const validateEmail = body("email")
-  .isEmail().withMessage("Must be a valid email")
-  .matches(/^[^\s@]+@[^\s@]+\.[^\s@]+$/) // standard structure
-  .matches(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/) // stricter: avoid special chars
+  .isEmail()
+  .withMessage("Must be a valid email")
+  .matches(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/)
   .withMessage("Email contains invalid characters")
+  .isLength({ max: 254 })
+  .withMessage("Email exceeds maximum length of 254 characters")
   .normalizeEmail();
 
-
 export const whitelistFields = (allowedFields) => (req, res, next) => {
-    const extraFields = Object.keys(req.body).filter(f => !allowedFields.includes(f));
-    if (extraFields.length > 0) {
-      return res.status(400).json({
-        error: `Unexpected fields: ${extraFields.join(", ")}`,
-      });
-    }
-    next();
-  };
+  const extraFields = Object.keys(req.body).filter(
+    (f) => !allowedFields.includes(f)
+  );
+  if (extraFields.length > 0) {
+    return res.status(400).json({
+      error: `Unexpected fields: ${extraFields.join(", ")}`,
+    });
+  }
+  next();
+};
 
-  export const validateLoginCredentials = [
-    validateEmail,
-    validatePassword,
-    validateRequest,
-  ];
+export const validateLoginCredentials = [
+  validateEmail,
+  validatePassword,
+  validateRequest,
+];
