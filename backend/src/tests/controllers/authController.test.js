@@ -1,11 +1,8 @@
 import * as authController from "../../controllers/authController.js";
-import { __test_helpers__, signup, login } from "../../controllers/authController.js";
-
-
+import { __test_helpers__} from "../../controllers/authController.js";
 import chai from "chai";
 import sinon from "sinon";
 import jwt from "jsonwebtoken";
-import bcrypt from "bcryptjs";
 import { afterEach, beforeEach, describe, it } from "mocha";
 
 const { expect } = chai;
